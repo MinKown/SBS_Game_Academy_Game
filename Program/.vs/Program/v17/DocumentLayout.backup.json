@@ -29,8 +29,7 @@
               "RelativeToolTip": "..\\..\\..\\..\\..\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt\\stdio.h",
               "ViewState": "AgIAADsEAAAAAAAAAADwv0oEAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-08-25T09:25:54.592Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-25T09:25:54.592Z"
             },
             {
               "$type": "Document",
@@ -38,9 +37,9 @@
               "Title": "Source.c",
               "DocumentMoniker": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\Source.c",
               "RelativeDocumentMoniker": "Source.c",
-              "ToolTip": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\Source.c",
-              "RelativeToolTip": "Source.c",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAFsAAAAUAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\Source.c*",
+              "RelativeToolTip": "Source.c*",
+              "ViewState": "AgIAAKgAAAAAAAAAAAAAANMAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2025-08-25T09:06:21.042Z",
               "EditorCaption": ""

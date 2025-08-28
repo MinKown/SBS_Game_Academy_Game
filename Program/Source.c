@@ -15,6 +15,7 @@ struct Player
 	int questPoint;				// 현재 퀘스트 진행도
 	int fightTurn;
 	int successPoint;			// 미션 성공 횟수
+	int speed;					// 속도가 공격의 우선을 정함.
 };
 
 struct Monster
@@ -24,11 +25,12 @@ struct Monster
 	int hp;
 	int attack;
 	int defence;
+	int speed;
 };
 
-struct Monster frest[2] = { {"고블린1", 1, 100, 10, 10}, {"고블린2", 1, 100, 10, 10} };
-struct Monster river[3] = { {"도적1", 1, 100, 10, 10}, {"도적2", 1, 100, 10, 10}, {"도적3", 1, 100, 10, 10} };
-struct Monster hills[4] = { {"늑대1", 1, 100, 10, 10}, {"늑대2", 1, 100, 10, 10}, {"늑대3", 1, 100, 10, 10}, {"늑대", 1, 100, 10, 10} };
+struct Monster frest[2] = { {"고블린1", 1, 100, 10, 10, 10}, {"고블린2", 1, 100, 10, 10, 10} };
+struct Monster river[3] = { {"도적1", 1, 100, 10, 10, 1}, {"도적2", 1, 100, 10, 10, 1}, {"도적3", 1, 100, 10, 10, 1} };
+struct Monster hills[4] = { {"늑대1", 1, 100, 10, 10, 3}, {"늑대2", 1, 100, 10, 10, 3}, {"늑대3", 1, 100, 10, 10, 3}, {"늑대", 1, 100, 10, 10, 5} };
 
 struct Player player;
 
@@ -38,12 +40,12 @@ void cls() {
 	system("cls");
 }
 
-void makeName(struct  Player* p) {
+void makeName() {
 	printf("[낡은 여관의 문이 삐걱이며 열린다.]\n");
 	printf("여관주인 : 그쪽은 이름이 어떻게 되나?\n");
 	printf("이름 : ");
-	if (fgets(p->name, 49, stdin) != NULL) {
-		p->name[strcspn(p->name, "\n")] = '\0';
+	if (fgets(player.name, 49, stdin) != NULL) {
+		player.name[strcspn(player.name, "\n")] = '\0';
 	}
 
 	printf("여관주인 : 좋아. 준비를 시작하지.\n");
@@ -52,7 +54,7 @@ void makeName(struct  Player* p) {
 	system("cls");
 }
 
-void choiceJob(struct Player *p) {
+void choiceJob() {
 	printf("[달그락거리며 여관주인은 여러 장구류를 가져온다.]\n");
 	printf("여관주인 : 어떤걸 고르시겠습니까?\n");
 	printf("[1. 검 2. 활 3. 지팡이]\n");
@@ -64,23 +66,23 @@ void choiceJob(struct Player *p) {
 	switch (playerChoice)
 	{
 	case 1:
-		p->equipment = 1; // 검
+		player.equipment = 1; // 검
 		printf("여관주인 : 오, 튼튼한 검을 집었군.\n");
 		printf("여관주인 : 이제 모험가다운 모습이로군!\n");
-		p->hp = 150; p->attack = 50; p->defence = 50;
-		p->level = 1; p->questPoint = 1; p->fightTurn = 1; p->successPoint = 0;
+		player.hp = 150; player.attack = 20; player.defence = 50; player.speed = 3;
+		player.level = 1; player.questPoint = 1; player.fightTurn = 1; player.successPoint = 0;
 		break;
 	case 2:
-		p->equipment = 2; // 활
+		player.equipment = 2; // 활
 		printf("여관주인 : 조용히, 그러나 멀리 보는 눈을 가진 자네와 잘 어울리는군...\n");
-		p->hp = 100; p->attack = 20; p->defence = 30;
-		p->level = 1; p->questPoint = 1; p->fightTurn = 1; p->successPoint = 0;
+		player.hp = 100; player.attack = 50; player.defence = 10; player.speed = 2;
+		player.level = 1; player.questPoint = 1; player.fightTurn = 1; player.successPoint = 0;
 		break;
 	case 3:
-		p->equipment = 3; // 지팡이
+		player.equipment = 3; // 지팡이
 		printf("여관주인 : 마법을 택했군, 지혜로운 선택일세...\n");
-		p->hp = 100; p->attack = 30; p->defence = 10;
-		p->level = 1; p->questPoint = 1; p->fightTurn = 1; p->successPoint = 0;
+		player.hp = 100; player.attack = 30; player.defence = 20; player.speed = 6;
+		player.level = 1; player.questPoint = 1; player.fightTurn = 1; player.successPoint = 0;
 		break;
 	default:
 		break;
@@ -138,17 +140,20 @@ void stageInfo(int stage, struct Monster *f, struct Monster* r, struct Monster* 
 	switch (stage) {
 	case 1:
 		for (int i = 0; i < 2; i++) {
-			printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d\n", frest[i].name, frest[i].hp, frest[i].attack, frest[i].defence);
+			printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n", 
+				frest[i].name, frest[i].hp, frest[i].attack, frest[i].defence, frest[i].speed);
 		}
 		break;
 	case 2:
 		for (int i = 0; i < 3; i++) {
-			printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d\n", river[i].name, river[i].hp, river[i].attack, river[i].defence);
+			printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n", 
+				river[i].name, river[i].hp, river[i].attack, river[i].defence, river[i].speed);
 		}
 		break;
 	case 3:
 		for (int i = 0; i < 4; i++) {
-			printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d\n", hills[i].name, hills[i].hp, hills[i].attack, hills[i].defence);
+			printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n", 
+				hills[i].name, hills[i].hp, hills[i].attack, hills[i].defence, hills[i].speed);
 		}
 		break;
 	}
@@ -200,73 +205,276 @@ int skill() {
 	return damage;
 }
 
-void battle(int stage, struct Monster f[], struct Monster r[], struct Monster h[], int stageTurn, int random) {
+void battle(int stage, struct Monster f[], struct Monster r[], struct Monster h[], int stageTurn, bool myTurn) {
 	int damage = 0;
 	int enemyDamage = 0;
-	int trun = stageTurn;
+	int turn = stageTurn;
+	int random = 0;
 
 	switch (stage) {
 	case 1:
 		damage = skill();
-		enemyDamage = f[trun].attack;
-
-		if (f[trun].hp <= 0) {
-			trun = 0;
-		}
-		printf("%d 번째 턴\n", trun + 1);
-
-		// player 크리티컬 : 30% 확률로 발동
-		if (random >= 30) {
-			damage += damage;
-			printf("[크리티컬!] ");
-		}
-
-		printf("나의 공격 (%d)\n", damage);
-		f[trun].hp -= damage;
+		enemyDamage = f[turn].attack;
 		
-		if (f[trun].hp > 0) {
+		int playerTotalDamage = 0;
+		int enemyTotalDamage = 0;
+
+		if (f[turn].hp <= 0) {
+			turn = 0;
+		}
+		printf("%d 번째 턴\n", turn + 1);
+
+		if (f[turn].speed > player.speed) myTurn = false;
+
+		// 속도에 따라 공격 순서가 바뀜.
+		if (myTurn == true) {
+			// player 크리티컬 : 30% 확률로 발동
+			random = rand() % 100 + 1;
+			if (random >= 30) {
+				damage += damage;
+				printf("[크리티컬!] ");
+			}
+			printf("나의 공격 (%d)\n", damage);
+			
+			// Enemy 방어
+			if (damage > f[turn].defence) {
+				playerTotalDamage = damage - f[turn].defence;
+			}
+			else playerTotalDamage = 0;
+			
+			f[turn].hp -= playerTotalDamage;
+
+			if (f[turn].hp > 0) {
+				// enemy 크리티컬 : 10% 확률로 발동
+				random = rand() % 100 + 1;
+				if (random >= 10) {
+					enemyDamage += enemyDamage;
+					printf("[크리티컬!] ");
+				}
+				printf("적의 공격 (%d)\n", enemyDamage);
+
+				// Player 방어
+				if (f[turn].attack > player.defence) {
+					enemyTotalDamage = enemyDamage - player.defence;
+				}
+				else enemyTotalDamage = 0;
+
+				player.hp -= enemyTotalDamage;
+			}
+		}
+		else {
 			// enemy 크리티컬 : 10% 확률로 발동
-			if (random >= 70) {
+			random = rand() % 100 + 1;
+			if (random >= 10) {
 				enemyDamage += enemyDamage;
 				printf("[크리티컬!] ");
 			}
-
 			printf("적의 공격 (%d)\n", enemyDamage);
-			player.hp -= enemyDamage;
+			
+			// Player 방어
+			if (f[turn].attack > player.defence) {
+				enemyTotalDamage = enemyDamage - player.defence;
+			}
+			else enemyTotalDamage = 0;
+
+			player.hp -= enemyTotalDamage;
+
+			if (player.hp > 0) {
+				// player 크리티컬 : 30% 확률로 발동
+				random = rand() % 100 + 1; 
+				if (random >= 30) {
+					damage += damage;
+					printf("[크리티컬!] ");
+				}
+				printf("나의 공격 (%d)\n", damage);
+
+				// Enemy 방어
+				if (damage > f[turn].defence) {
+					playerTotalDamage = damage - f[turn].defence;
+				}
+				else playerTotalDamage = 0;
+
+				f[turn].hp -= playerTotalDamage;
+			}
 		}
+
 		printf("\n");
 		break;
 
 	case 2:
 		damage = skill();
+		enemyDamage = r[turn].attack;
 
-		if (r[trun].hp <= 0) {
-			trun = 0;
+		if (r[turn].hp <= 0) {
+			turn = 0;
 		}
-		printf("%d 번째 턴\n", trun + 1);
-		printf("나의 공격 (%d)\n", damage);
-		r[trun].hp -= damage;
+		printf("%d 번째 턴\n", turn + 1);
 
-		if (r[trun].hp > 0) {
-			printf("적의 공격 (%d)\n", r[trun].attack);
-			player.hp -= r[trun].attack;
+		if (r[turn].speed > player.speed) myTurn = false;
+
+		// 속도에 따라 공격 순서가 바뀜.
+		if (myTurn == true) {
+			// player 크리티컬 : 30% 확률로 발동
+			random = rand() % 100 + 1;
+			if (random >= 30) {
+				damage += damage;
+				printf("[크리티컬!] ");
+			}
+
+			printf("나의 공격 (%d)\n", damage);
+			
+			// Enemy 방어
+			if (damage > f[turn].defence) {
+				playerTotalDamage = damage - f[turn].defence;
+			}
+			else playerTotalDamage = 0;
+
+			f[turn].hp -= playerTotalDamage;
+
+			if (r[turn].hp > 0) {
+				// enemy 크리티컬 : 10% 확률로 발동
+				random = rand() % 100 + 1;
+				if (random >= 10) {
+					enemyDamage += enemyDamage;
+					printf("[크리티컬!] ");
+				}
+				printf("적의 공격 (%d)\n", enemyDamage);
+				
+				// Player 방어
+				if (f[turn].attack > player.defence) {
+					enemyTotalDamage = enemyDamage - player.defence;
+				}
+				else enemyTotalDamage = 0;
+
+				player.hp -= enemyTotalDamage;
+			}
 		}
+		else {
+			// enemy 크리티컬 : 10% 확률로 발동
+			random = rand() % 100 + 1;
+			if (random >= 10) {
+				enemyDamage += enemyDamage;
+				printf("[크리티컬!] ");
+			}
+			printf("적의 공격 (%d)\n", enemyDamage);
+			
+			// Player 방어
+			if (f[turn].attack > player.defence) {
+				enemyTotalDamage = enemyDamage - player.defence;
+			}
+			else enemyTotalDamage = 0;
+
+			player.hp -= enemyTotalDamage;
+
+			if (player.hp > 0) {
+				// player 크리티컬 : 30% 확률로 발동
+				random = rand() % 100 + 1;
+				if (random >= 30) {
+					damage += damage;
+					printf("[크리티컬!] ");
+				}
+
+				printf("나의 공격 (%d)\n", damage);
+				
+				// Enemy 방어
+				if (damage > f[turn].defence) {
+					playerTotalDamage = damage - f[turn].defence;
+				}
+				else playerTotalDamage = 0;
+
+				f[turn].hp -= playerTotalDamage;
+			}
+		}
+
 		printf("\n");
 		break;
 
 	case 3:
 		damage = skill();
-		if (h[trun].hp <= 0) {
-			trun = 0;
-		}
-		printf("%d 번째 턴\n", trun + 1);
-		printf("나의 공격 (%d)\n", damage);
-		h[trun].hp -= damage;
+		enemyDamage = h[turn].attack;
 
-		if (h[trun].hp > 0) {
-			printf("적의 공격 (%d)\n", h[trun].attack);
-			player.hp -= h[trun].attack;
+		if (h[turn].hp <= 0) {
+			turn = 0;
 		}
+		printf("%d 번째 턴\n", turn + 1);
+
+		if (h[turn].speed > player.speed) myTurn = false;
+
+		// 속도에 따라 공격 순서가 바뀜.
+		if (myTurn == true) {
+			// player 크리티컬 : 30% 확률로 발동
+			random = rand() % 100 + 1;
+			if (random >= 30) {
+				damage += damage;
+				printf("[크리티컬!] ");
+			}
+
+			printf("나의 공격 (%d)\n", damage);
+			
+			// Enemy 방어
+			if (damage > f[turn].defence) {
+				playerTotalDamage = damage - f[turn].defence;
+			}
+			else playerTotalDamage = 0;
+
+			f[turn].hp -= playerTotalDamage;
+
+			if (h[turn].hp > 0) {
+				// enemy 크리티컬 : 10% 확률로 발동
+				random = rand() % 100 + 1;
+				if (random >= 10) {
+					enemyDamage += enemyDamage;
+					printf("[크리티컬!] ");
+				}
+
+				printf("적의 공격 (%d)\n", enemyDamage);
+				
+				// Player 방어
+				if (f[turn].attack > player.defence) {
+					enemyTotalDamage = enemyDamage - player.defence;
+				}
+				else enemyTotalDamage = 0;
+
+				player.hp -= enemyTotalDamage;
+			}
+		}
+		else {
+			// enemy 크리티컬 : 10% 확률로 발동
+			random = rand() % 100 + 1;
+			if (random >= 10) {
+				enemyDamage += enemyDamage;
+				printf("[크리티컬!] ");
+			}
+			printf("적의 공격 (%d)\n", enemyDamage);
+			
+			// Player 방어
+			if (f[turn].attack > player.defence) {
+				enemyTotalDamage = enemyDamage - player.defence;
+			}
+			else enemyTotalDamage = 0;
+
+			player.hp -= enemyTotalDamage;
+
+			if (player.hp > 0) {
+				// player 크리티컬 : 30% 확률로 발동
+				random = rand() % 100 + 1;
+				if (random >= 30) {
+					damage += damage;
+					printf("[크리티컬!] ");
+				}
+
+				printf("나의 공격 (%d)\n", damage);
+				
+				// Enemy 방어
+				if (damage > f[turn].defence) {
+					playerTotalDamage = damage - f[turn].defence;
+				}
+				else playerTotalDamage = 0;
+
+				f[turn].hp -= playerTotalDamage;
+			}
+		}
+
 		printf("\n");
 		break;
 	}
@@ -274,10 +482,9 @@ void battle(int stage, struct Monster f[], struct Monster r[], struct Monster h[
 
 int main() {
 	srand(time(NULL));
-	
-	int random = rand() % 100 + 1;		// 1 ~ 100 난수
+	//int random = rand() % 100 + 1;		// 1 ~ 100 난수
 	int missionChoice = 0;				// switch (state) case 2: 에서 사용되는 선택
-	int viligeChoice = 0;				// switch (state) case 4: 에서 사용되는 선택
+	int villageChoice = 0;				// switch (state) case 4: 에서 사용되는 선택
 	int hotelChoice = 0;				// switch (state) case 4: 에서 사용되는 선택
 	int state = 0;						// while 문 안에서 state를 이용해서 유기적인 반복문 진행
 	int i = 0;
@@ -286,15 +493,18 @@ int main() {
 	int useSmithy = 0;					// 최대 대장간 사용 수
 	int useHotel = 0;					// 최대 여관 사용 수
 	int useStore = 0;					// 최대 상점 사용 수
+	int deathCount = 0;					// 죽은 횟수
 
+	bool myTurn = true;					// 내가 속도가 적보다 빠름
 	bool running = true;
 	bool fighting = true;
+
 	while (running) {
 		switch (state) {
 		case 0:		// 직업 결정
 			printf("간단한 MUD 게임\n");
-			makeName(&player);
-			choiceJob(&player);
+			makeName();
+			choiceJob();
 			state = 1;
 			break;
 		case 1:		// 스토리 및 임무 받기
@@ -338,13 +548,14 @@ int main() {
 				break;
 
 			case 4:		// 네 번째 임무
+				printf("스페이스바를 눌러주세요.\n");
 				while (i < 4) {
 					if (GetAsyncKeyState(VK_SPACE) & 0x0001) {
 						printf("%s\n", Talk4[i]);
 						i++;
 					}
 				}
-				state = 4;
+				state = 5;
 				i = 0;
 				break;
 			}
@@ -379,12 +590,14 @@ int main() {
 				stageInfo(missionChoice, frest, river, hills);
 
 				while (fighting) {
-					printf("나 : %s		체력 : %d	  공격력 : %d		방어력 : %d\n",
-						player.name, player.hp, player.attack, player.defence);
-					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d\n",
-						frest[fightOrder].name, frest[fightOrder].hp, frest[fightOrder].attack, frest[fightOrder].defence);
+					printf("나 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
+						player.name, player.hp, player.attack, player.defence, player.speed);
+					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
+						frest[fightOrder].name, frest[fightOrder].hp, frest[fightOrder].attack, frest[fightOrder].defence, frest[fightOrder].speed);
 
-					battle(missionChoice, &frest, &river, &hills, stageTurn, random);
+					
+					battle(missionChoice, frest, river, hills, stageTurn, myTurn);
+					myTurn = true;
 
 					if (frest[fightOrder].hp <= 0) {
 						stageTurn++;
@@ -426,12 +639,12 @@ int main() {
 				stageInfo(missionChoice, frest, river, hills);
 
 				while (fighting) {
-					printf("나 : %s		체력 : %d	  공격력 : %d		방어력 : %d\n",
-						player.name, player.hp, player.attack, player.defence);
-					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d\n",
-						river[fightOrder].name, river[fightOrder].hp, river[fightOrder].attack, river[fightOrder].defence);
-
-					battle(missionChoice, &frest, &river, &hills, stageTurn, random);
+					printf("나 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
+						player.name, player.hp, player.attack, player.defence, player.speed);
+					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
+						river[fightOrder].name, river[fightOrder].hp, river[fightOrder].attack, river[fightOrder].defence, river[fightOrder].speed);
+					
+					battle(missionChoice, frest, river, hills, stageTurn, myTurn);
 
 					if (river[fightOrder].hp <= 0) {
 						stageTurn++;
@@ -472,12 +685,12 @@ int main() {
 				stageInfo(missionChoice, frest, river, hills);
 
 				while (fighting) {
-					printf("나 : %s		체력 : %d	  공격력 : %d		방어력 : %d\n",
-						player.name, player.hp, player.attack, player.defence);
-					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d\n",
-						hills[fightOrder].name, hills[fightOrder].hp, hills[fightOrder].attack, hills[fightOrder].defence);
-
-					battle(missionChoice, &frest, &river, &hills, stageTurn, random);
+					printf("나 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
+						player.name, player.hp, player.attack, player.defence, player.speed);
+					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
+						hills[fightOrder].name, hills[fightOrder].hp, hills[fightOrder].attack, hills[fightOrder].defence, hills[fightOrder].speed);
+					
+					battle(missionChoice, frest, river, hills, stageTurn, myTurn);
 
 					if (hills[fightOrder].hp <= 0) {
 						stageTurn++;
@@ -494,7 +707,7 @@ int main() {
 					if (player.hp <= 0) {
 						printf("나의 패배다.\n");
 						fighting = false;
-						state = 10;
+						state = 7;
 						break;
 					}
 				}
@@ -511,9 +724,9 @@ int main() {
 			printf("마을\n");
 			printf("1. 여관		2. 대장간		3. 상점		4. 임무 수행\n");
 			printf("선택 : ");
-			scanf_s("%d", &viligeChoice);
+			scanf_s("%d", &villageChoice);
 
-			switch (viligeChoice)
+			switch (villageChoice)
 			{
 			case 1:		// 여관
 				printf("무엇을 하지 ?\n");
@@ -524,6 +737,7 @@ int main() {
 				{
 				case 1:			// 휴식
 					if (useHotel >= 6) {
+						printf("사용 할 수 있는 횟수를 넘어섰습니다.\n");
 						break;
 						state = 4;
 					}
@@ -545,21 +759,24 @@ int main() {
 				break;
 			case 2:		// 대장간
 				if (useSmithy >= 6) {
+					printf("사용 할 수 있는 횟수를 넘어섰습니다.\n");
 					break;
 					state = 4;
 				}
-				printf("대장간 사용\n");
+				printf("대장간 사용\n");				
 				printf("현재 %d 번 사용하셨습니다. 총 6번 사용 가능합니다.\n", useSmithy + 1);
 				useSmithy++;
 				state = 4;
 				break;
 			case 3:		// 상점
 				if (useStore >= 6) {
+					printf("사용 할 수 있는 횟수를 넘어섰습니다.\n");
 					break;
 					state = 4;
 				}
 				printf("상점 사용\n");
 				printf("현재 %d 번 사용하셨습니다. 총 6번 사용 가능합니다.\n", useStore + 1);
+				
 				useStore++;
 				state = 4;
 				break;
@@ -569,16 +786,32 @@ int main() {
 			}
 			break;
 
-		case 5:		//
+		case 5:		// 승리
+			cls();
+			printf("당신의 승리입니다.\n");
 			break;
 
-		default:	// 종료
+		case 6:		// 종료
+			cls();
 			printf("당신의 패배입니다.\n");
 			break;
+		case 7:		// 성당 : 죽은 뒤 다시 태어남
+			if (deathCount >= 6) {
+				break;
+				state = 6;
+			}
+			printf("성당 사용\n");
+			printf("현재 %d 번 사용하셨습니다. 총 6번 사용 가능합니다.\n", deathCount + 1);
+			deathCount++;
+			state = 4;
+			break;
 		}
+		
 		if (player.hp <= 0) {
 			break;
 		}
+		if (state == 5) break;
+		if (state == 6) break;
 	}
 
 	return 0;

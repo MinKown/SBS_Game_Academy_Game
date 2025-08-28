@@ -1,21 +1,15 @@
 ﻿  Source.c
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(276,8): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(387,28): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[2]'과(와) 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(387,28): warning C4024: 'battle': 형식 및 실제 매개 변수 2의 형식이 서로 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(387,36): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[3]'과(와) 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(387,36): warning C4024: 'battle': 형식 및 실제 매개 변수 3의 형식이 서로 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(387,44): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[4]'과(와) 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(387,44): warning C4024: 'battle': 형식 및 실제 매개 변수 4의 형식이 서로 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(434,28): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[2]'과(와) 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(434,28): warning C4024: 'battle': 형식 및 실제 매개 변수 2의 형식이 서로 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(434,36): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[3]'과(와) 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(434,36): warning C4024: 'battle': 형식 및 실제 매개 변수 3의 형식이 서로 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(434,44): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[4]'과(와) 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(434,44): warning C4024: 'battle': 형식 및 실제 매개 변수 4의 형식이 서로 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(479,28): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[2]'과(와) 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(479,28): warning C4024: 'battle': 형식 및 실제 매개 변수 2의 형식이 서로 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(479,36): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[3]'과(와) 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(479,36): warning C4024: 'battle': 형식 및 실제 매개 변수 3의 형식이 서로 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(479,44): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[4]'과(와) 다릅니다.
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(479,44): warning C4024: 'battle': 형식 및 실제 매개 변수 4의 형식이 서로 다릅니다.
+C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(402,8): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(564,28): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[2]'과(와) 다릅니다.
+C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(564,28): warning C4024: 'battle': 형식 및 실제 매개 변수 2의 형식이 서로 다릅니다.
+C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(564,36): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[3]'과(와) 다릅니다.
+C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(564,36): warning C4024: 'battle': 형식 및 실제 매개 변수 3의 형식이 서로 다릅니다.
+C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(564,44): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[4]'과(와) 다릅니다.
+C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(564,44): warning C4024: 'battle': 형식 및 실제 매개 변수 4의 형식이 서로 다릅니다.
+C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(610,28): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[2]'과(와) 다릅니다.
+C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(610,28): warning C4024: 'battle': 형식 및 실제 매개 변수 2의 형식이 서로 다릅니다.
+C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(610,36): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[3]'과(와) 다릅니다.
+C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(610,36): warning C4024: 'battle': 형식 및 실제 매개 변수 3의 형식이 서로 다릅니다.
+C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(610,44): warning C4047: '함수': 'Monster *'의 간접 참조 수준이 'Monster (*)[4]'과(와) 다릅니다.
+C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(610,44): warning C4024: 'battle': 형식 및 실제 매개 변수 4의 형식이 서로 다릅니다.
   Program.vcxproj -> C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\x64\Debug\Program.exe

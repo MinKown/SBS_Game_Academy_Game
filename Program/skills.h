@@ -3,6 +3,9 @@
 #include <stdint.h>
 typedef uint32_t SkillMask;
 
+typedef struct Player Player;     // 전방 선언
+typedef struct Monster Monster;   // 전방 선언
+
 // 공용 스킬
 #define SKILL_ATTACK		(1u << 0)		// 기본 공격
 #define SKILL_HEAL			(1u << 1)		// 붕대 감기
@@ -28,3 +31,5 @@ typedef uint32_t SkillMask;
 #define JOB_SWORD	(SKILL_ATTACK|SKILL_HEAL|SKILL_SLASH|SKILL_CHARGE|SKILL_SHIELD_BLOCK|SKILL_BERSERK)
 #define JOB_BOW		(SKILL_ATTACK|SKILL_HEAL|SKILL_ARROW_SHOT|SKILL_MULTI_SHOT|SKILL_POISON_ARROW|SKILL_EVASION)
 #define JOB_STAFF	(SKILL_ATTACK|SKILL_HEAL|SKILL_FIREBALL|SKILL_ICE_WALL|SKILL_LIGHTNING|SKILL_TELEPORT)
+
+void applySkills(SkillMask selected, Player* p, Monster* m[]);

@@ -477,6 +477,10 @@ int main() {
 	int useStore = 0;					// 최대 상점 사용 수
 	int deathCount = 0;					// 죽은 횟수
 
+	typedef uint32_t SkillMask;
+	SkillMask test = 0;
+	int testChoice = 0;
+
 	bool myTurn = true;					// 내가 속도가 적보다 빠름
 	bool running = true;
 	bool fighting = true;
@@ -577,7 +581,15 @@ int main() {
 					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
 						frest[fightOrder].name, frest[fightOrder].hp, frest[fightOrder].attack, frest[fightOrder].defence, frest[fightOrder].speed);
 
-					
+					//printf("선택 : ");
+					//scanf_s("%d", &testChoice);
+					//
+					//if (testChoice == 1) test |= SKILL_ATTACK;
+
+					applySkills(SKILL_ATTACK, &player, &frest[0]);
+
+					// 수정할것. 공격은 되게 만들었지만, 이제 stageTurn, fightOrder 등 frest, river, hills도 되게 만들어야함.
+					// hp가 0가 되는지 안되는지 모르다 보니 계속 공격만함.
 
 					//battle(missionChoice, frest, river, hills, stageTurn, myTurn);
 					myTurn = true;
@@ -673,6 +685,8 @@ int main() {
 					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
 						hills[fightOrder].name, hills[fightOrder].hp, hills[fightOrder].attack, hills[fightOrder].defence, hills[fightOrder].speed);
 					
+					
+
 					battle(missionChoice, frest, river, hills, stageTurn, myTurn);
 
 					if (hills[fightOrder].hp <= 0) {

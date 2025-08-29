@@ -15,3 +15,8 @@ static void do_attack(Player* p, Monster* m) {
 
 	printf("[Player 공격] %d 피해\n", damage);
 }
+
+void applySkills(SkillMask selected ,Player* p, Monster* m) {
+	
+	if (selected & SKILL_ATTACK) do_attack(p, m);
+}

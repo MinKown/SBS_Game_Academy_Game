@@ -18,5 +18,22 @@
     <ClCompile Include="Source.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="skills.h">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="skill.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="test.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="entities.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="skills.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

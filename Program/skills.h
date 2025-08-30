@@ -32,4 +32,6 @@ typedef struct Monster Monster;   // 전방 선언
 #define JOB_BOW		(SKILL_ATTACK|SKILL_HEAL|SKILL_ARROW_SHOT|SKILL_MULTI_SHOT|SKILL_POISON_ARROW|SKILL_EVASION)
 #define JOB_STAFF	(SKILL_ATTACK|SKILL_HEAL|SKILL_FIREBALL|SKILL_ICE_WALL|SKILL_LIGHTNING|SKILL_TELEPORT)
 
-void applySkills(SkillMask selected, Player* p, Monster* m[]);
+SkillMask showSkillsList(struct Player* p);
+void applySkills(SkillMask selected, Player* p, Monster* m);
+int checkStun(Player* p, Monster* m);

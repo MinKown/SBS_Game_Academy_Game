@@ -9,6 +9,8 @@
 #include <time.h>
 #include <stdbool.h>
 
+typedef uint32_t SkillMask;
+
 struct Player player;
 
 struct Monster frest[2] = { {"고블린1", 1, 100, 10, 10, 10}, {"고블린2", 1, 100, 10, 10, 10} };
@@ -142,326 +144,6 @@ void stageInfo(int stage, struct Monster *f, struct Monster* r, struct Monster* 
 	cls();
 }
 
-int skill() {
-	int choice = 0, damage = 0;
-	
-	switch (player.equipment) {
-	case 1:
-		printf("검의 기술\n");
-		printf("1. 베기\n");
-		printf("=================\n");
-		printf("선택 : ");
-		scanf_s("%d", &choice);
-
-		if (choice == 1) {
-			damage = player.attack;
-		}
-
-		break;
-	case 2:
-		printf("활의 기술\n");
-		printf("1. 쏘기\n");
-		printf("=================\n");
-		printf("선택 : ");
-		scanf_s("%d", &choice);
-
-		if (choice == 1) {
-			damage = player.attack;
-		}
-
-		break;
-	case 3:
-		printf("지팡이의 기술\n");
-		printf("1. 불꽃\n");
-		printf("=================\n");
-		printf("선택 : ");
-		scanf_s("%d", &choice);
-
-		if (choice == 1) {
-			damage = player.attack;
-		}
-
-		break;
-	}
-
-	return damage;
-}
-
-void battle(int stage, struct Monster f[], struct Monster r[], struct Monster h[], int stageTurn, bool myTurn) {
-	int damage = 0;
-	int enemyDamage = 0;
-	int turn = stageTurn;
-	int random = 0;
-
-	switch (stage) {
-	case 1:
-		damage = skill();
-		enemyDamage = f[turn].attack;
-		
-		int playerTotalDamage = 0;
-		int enemyTotalDamage = 0;
-
-		if (f[turn].hp <= 0) {
-			turn = 0;
-		}
-		printf("%d 번째 턴\n", turn + 1);
-
-		if (f[turn].speed > player.speed) myTurn = false;
-
-		// 속도에 따라 공격 순서가 바뀜.
-		if (myTurn == true) {
-			// player 크리티컬 : 30% 확률로 발동
-			random = rand() % 100 + 1;
-			if (random >= 70) {
-				damage += damage;
-				printf("[크리티컬!] ");
-			}
-			printf("나의 공격 (%d)\n", damage);
-			
-			// Enemy 방어
-			if (damage > f[turn].defence) {
-				playerTotalDamage = damage - f[turn].defence;
-			}
-			else playerTotalDamage = 0;
-			
-			f[turn].hp -= playerTotalDamage;
-
-			if (f[turn].hp > 0) {
-				// enemy 크리티컬 : 10% 확률로 발동
-				random = rand() % 100 + 1;
-				if (random >= 90) {
-					enemyDamage += enemyDamage;
-					printf("[크리티컬!] ");
-				}
-				printf("적의 공격 (%d)\n", enemyDamage);
-
-				// Player 방어
-				if (enemyDamage > player.defence) {
-					enemyTotalDamage = enemyDamage - player.defence;
-				}
-				else enemyTotalDamage = 0;
-
-				player.hp -= enemyTotalDamage;
-			}
-		}
-		else {
-			// enemy 크리티컬 : 10% 확률로 발동
-			random = rand() % 100 + 1;
-			if (random >= 10) {
-				enemyDamage += enemyDamage;
-				printf("[크리티컬!] ");
-			}
-			printf("적의 공격 (%d)\n", enemyDamage);
-			
-			// Player 방어
-			if (enemyDamage > player.defence) {
-				enemyTotalDamage = enemyDamage - player.defence;
-			}
-			else enemyTotalDamage = 0;
-
-			player.hp -= enemyTotalDamage;
-
-			if (player.hp > 0) {
-				// player 크리티컬 : 30% 확률로 발동
-				random = rand() % 100 + 1; 
-				if (random >= 30) {
-					damage += damage;
-					printf("[크리티컬!] ");
-				}
-				printf("나의 공격 (%d)\n", damage);
-
-				// Enemy 방어
-				if (damage > f[turn].defence) {
-					playerTotalDamage = damage - f[turn].defence;
-				}
-				else playerTotalDamage = 0;
-
-				f[turn].hp -= playerTotalDamage;
-			}
-		}
-
-		printf("\n");
-		break;
-
-	case 2:
-		damage = skill();
-		enemyDamage = r[turn].attack;
-
-		if (r[turn].hp <= 0) {
-			turn = 0;
-		}
-		printf("%d 번째 턴\n", turn + 1);
-
-		if (r[turn].speed > player.speed) myTurn = false;
-
-		// 속도에 따라 공격 순서가 바뀜.
-		if (myTurn) {
-			// player 크리티컬 : 30% 확률로 발동
-			random = rand() % 100 + 1;
-			if (random >= 70) {
-				damage += damage;
-				printf("[크리티컬!] ");
-			}
-
-			printf("나의 공격 (%d)\n", damage);
-			
-			// Enemy 방어
-			if (damage > r[turn].defence) {
-				playerTotalDamage = damage - r[turn].defence;
-			}
-			else playerTotalDamage = 0;
-
-			r[turn].hp -= playerTotalDamage;
-
-			if (r[turn].hp > 0) {
-				// enemy 크리티컬 : 10% 확률로 발동
-				random = rand() % 100 + 1;
-				if (random >= 90) {
-					enemyDamage += enemyDamage;
-					printf("[크리티컬!] ");
-				}
-				printf("적의 공격 (%d)\n", enemyDamage);
-				
-				// Player 방어
-				if (enemyDamage > player.defence) {
-					enemyTotalDamage = enemyDamage - player.defence;
-				}
-				else enemyTotalDamage = 0;
-
-				player.hp -= enemyTotalDamage;
-			}
-		}
-		else {
-			// enemy 크리티컬 : 10% 확률로 발동
-			random = rand() % 100 + 1;
-			if (random >= 90) {
-				enemyDamage += enemyDamage;
-				printf("[크리티컬!] ");
-			}
-			printf("적의 공격 (%d)\n", enemyDamage);
-			
-			// Player 방어
-			if (enemyDamage > player.defence) {
-				enemyTotalDamage = enemyDamage - player.defence;
-			}
-			else enemyTotalDamage = 0;
-
-			player.hp -= enemyTotalDamage;
-
-			if (player.hp > 0) {
-				// player 크리티컬 : 30% 확률로 발동
-				random = rand() % 100 + 1;
-				if (random >= 70) {
-					damage += damage;
-					printf("[크리티컬!] ");
-				}
-
-				printf("나의 공격 (%d)\n", damage);
-				
-				// Enemy 방어
-				if (damage > r[turn].defence) {
-					playerTotalDamage = damage - r[turn].defence;
-				}
-				else playerTotalDamage = 0;
-
-				r[turn].hp -= playerTotalDamage;
-			}
-		}
-
-		printf("\n");
-		break;
-
-	case 3:
-		damage = skill();
-		enemyDamage = h[turn].attack;
-
-		if (h[turn].hp <= 0) {
-			turn = 0;
-		}
-		printf("%d 번째 턴\n", turn + 1);
-
-		if (h[turn].speed > player.speed) myTurn = false;
-
-		// 속도에 따라 공격 순서가 바뀜.
-		if (myTurn == true) {
-			// player 크리티컬 : 30% 확률로 발동
-			random = rand() % 100 + 1;
-			if (random >= 30) {
-				damage += damage;
-				printf("[크리티컬!] ");
-			}
-
-			printf("나의 공격 (%d)\n", damage);
-			
-			// Enemy 방어
-			if (damage > h[turn].defence) {
-				playerTotalDamage = damage - h[turn].defence;
-			}
-			else playerTotalDamage = 0;
-
-			h[turn].hp -= playerTotalDamage;
-
-			if (h[turn].hp > 0) {
-				// enemy 크리티컬 : 10% 확률로 발동
-				random = rand() % 100 + 1;
-				if (random >= 10) {
-					enemyDamage += enemyDamage;
-					printf("[크리티컬!] ");
-				}
-
-				printf("적의 공격 (%d)\n", enemyDamage);
-				
-				// Player 방어
-				if (h[turn].attack > player.defence) {
-					enemyTotalDamage = enemyDamage - player.defence;
-				}
-				else enemyTotalDamage = 0;
-
-				player.hp -= enemyTotalDamage;
-			}
-		}
-		else {
-			// enemy 크리티컬 : 10% 확률로 발동
-			random = rand() % 100 + 1;
-			if (random >= 10) {
-				enemyDamage += enemyDamage;
-				printf("[크리티컬!] ");
-			}
-			printf("적의 공격 (%d)\n", enemyDamage);
-			
-			// Player 방어
-			if (f[turn].attack > player.defence) {
-				enemyTotalDamage = enemyDamage - player.defence;
-			}
-			else enemyTotalDamage = 0;
-
-			player.hp -= enemyTotalDamage;
-
-			if (player.hp > 0) {
-				// player 크리티컬 : 30% 확률로 발동
-				random = rand() % 100 + 1;
-				if (random >= 30) {
-					damage += damage;
-					printf("[크리티컬!] ");
-				}
-
-				printf("나의 공격 (%d)\n", damage);
-				
-				// Enemy 방어
-				if (damage > h[turn].defence) {
-					playerTotalDamage = damage - h[turn].defence;
-				}
-				else playerTotalDamage = 0;
-
-				h[turn].hp -= playerTotalDamage;
-			}
-		}
-
-		printf("\n");
-		break;
-	}
-}
-
 int main() {
 	srand(time(NULL));
 	//int random = rand() % 100 + 1;		// 1 ~ 100 난수
@@ -477,11 +159,10 @@ int main() {
 	int useStore = 0;					// 최대 상점 사용 수
 	int deathCount = 0;					// 죽은 횟수
 
-	typedef uint32_t SkillMask;
+	
 	SkillMask test = 0;
 	int testChoice = 0;
 
-	bool myTurn = true;					// 내가 속도가 적보다 빠름
 	bool running = true;
 	bool fighting = true;
 
@@ -581,18 +262,12 @@ int main() {
 					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
 						frest[fightOrder].name, frest[fightOrder].hp, frest[fightOrder].attack, frest[fightOrder].defence, frest[fightOrder].speed);
 
-					//printf("선택 : ");
-					//scanf_s("%d", &testChoice);
-					//
-					//if (testChoice == 1) test |= SKILL_ATTACK;
+					test |= showSkillsList(&player);
 
-					applySkills(SKILL_ATTACK, &player, &frest[0]);
-
-					// 수정할것. 공격은 되게 만들었지만, 이제 stageTurn, fightOrder 등 frest, river, hills도 되게 만들어야함.
-					// hp가 0가 되는지 안되는지 모르다 보니 계속 공격만함.
-
-					//battle(missionChoice, frest, river, hills, stageTurn, myTurn);
-					myTurn = true;
+					printf("[숲 가장자리의 %d 번째 적]\n", stageTurn + 1);
+					
+					checkStun(&player, &frest[fightOrder]);
+					applySkills(test, &player, &frest[fightOrder]);
 
 					if (frest[fightOrder].hp <= 0) {
 						stageTurn++;
@@ -639,7 +314,10 @@ int main() {
 					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
 						river[fightOrder].name, river[fightOrder].hp, river[fightOrder].attack, river[fightOrder].defence, river[fightOrder].speed);
 					
-					battle(missionChoice, frest, river, hills, stageTurn, myTurn);
+					test |= showSkillsList(&player);
+
+					printf("[강 주변의 %d 번째 적]\n", stageTurn + 1);
+					applySkills(test, &player, &river[fightOrder]);
 
 					if (river[fightOrder].hp <= 0) {
 						stageTurn++;
@@ -685,9 +363,10 @@ int main() {
 					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
 						hills[fightOrder].name, hills[fightOrder].hp, hills[fightOrder].attack, hills[fightOrder].defence, hills[fightOrder].speed);
 					
-					
+					test |= showSkillsList(&player);
 
-					battle(missionChoice, frest, river, hills, stageTurn, myTurn);
+					printf("[구룽지의 %d 번째 적]\n", stageTurn + 1);
+					applySkills(test, &player, &hills[fightOrder]);
 
 					if (hills[fightOrder].hp <= 0) {
 						stageTurn++;
@@ -775,8 +454,6 @@ int main() {
 				case 3:		// 마법사
 					break;
 				}
-
-
 				printf("현재 %d 번 사용하셨습니다. 총 6번 사용 가능합니다.\n", useSmithy + 1);
 				useSmithy++;
 				state = 4;

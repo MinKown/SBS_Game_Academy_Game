@@ -12,6 +12,7 @@ typedef struct Player
 	int fightTurn;
 	int successPoint;			// 미션 성공 횟수
 	int speed;					// 속도가 공격의 우선을 정함.
+	int stun;					// 스턴 여부
 }Player;
 
 typedef struct Monster
@@ -22,4 +23,5 @@ typedef struct Monster
 	int attack;
 	int defence;
 	int speed;
+	int stun;
 }Monster;

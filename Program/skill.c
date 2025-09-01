@@ -14,6 +14,7 @@ static void playerAttack(Player* p, Monster* m) {
 	if (damage <= 0) damage = 0;
 
 	m->hp -= damage;
+	p->skillPoint++;
 
 	printf("[Player 공격] %d 피해\n", damage);
 
@@ -30,11 +31,17 @@ static void enemyAttack(Player* p, Monster* m) {
 
 // 검 스킬
 static void playerSlash(Player* p, Monster* m) {
+	int damage = p->attack + 20 - m->defence;
+	if (damage <= 0) damage = 0;
 
+	m->hp -= damage;
+	p->skillPoint++;
+
+	printf("[Player 공격] %d 피해\n", damage);
 }
 
 static void playerCharge(Player* p, Monster* m) {
-
+	
 }
 
 static void playerShieldBlock(Player* p, Monster* m) {
@@ -72,76 +79,51 @@ static void playerIceWall(Player* p, Monster* m) {
 }
 
 static void playerLightning(Player* p, Monster* m) {
+	if (p->speed >= m->speed) m->stun += 2;
+	if (m->speed > p->speed) m->stun += 1;
 	printf("[Player 공격] %s 스턴", m->name);
-	m->stun = 1;
 }
 
-static void playerTeleport(Player* p, Monster* m) {
+static void playerConcentration(Player* p, Monster* m) {
 
 }
 
 void applySkills(SkillMask selected ,Player* p, Monster* m) {
-	int enemyStun = 0;
+	// 기본 스킬
+	if (selected & SKILL_ATTACK) playerAttack(p, m);
+	if (selected & SKILL_HEAL) playerAttack(p, m);
 
-	// Enemy의 속도가 Player보다 빠를 경우
-	if (m->speed > p->speed) {
-		enemyAttack(p, m);
+	// 검 스킬
+	if (selected & SKILL_SLASH) playerSlash(p, m);
+	if (selected & SKILL_CHARGE) playerCharge(p, m);
+	if (selected & SKILL_SHIELD_BLOCK) playerShieldBlock(p, m);
+	if (selected & SKILL_BERSERK) playerBerserk(p, m);
 
-		// 기본 스킬
-		if (selected & SKILL_ATTACK) playerAttack(p, m);
-		if (selected & SKILL_HEAL) playerAttack(p, m);
+	// 활 스킬
+	if (selected & SKILL_ARROW_SHOT) playerArrowShot(p, m);
+	if (selected & SKILL_MULTI_SHOT) playerMultiShot(p, m);
+	if (selected & SKILL_POISON_ARROW) playerPoisonArrow(p, m);
+	if (selected & SKILL_EVASION) playerEvasion(p, m);
 
-		// 검 스킬
-		if (selected & SKILL_SLASH) playerSlash(p, m);
-		if (selected & SKILL_CHARGE) playerCharge(p, m);
-		if (selected & SKILL_SHIELD_BLOCK) playerShieldBlock(p, m);
-		if (selected & SKILL_BERSERK) playerBerserk(p, m);
-
-		// 활 스킬
-		if (selected & SKILL_ARROW_SHOT) playerArrowShot(p, m);
-		if (selected & SKILL_MULTI_SHOT) playerMultiShot(p, m);
-		if (selected & SKILL_POISON_ARROW) playerPoisonArrow(p, m);
-		if (selected & SKILL_EVASION) playerEvasion(p, m);
-
-		// 지팡이 스킬
-		if (selected & SKILL_FIREBALL) playerFireball(p, m);
-		if (selected & SKILL_ICE_WALL) playerIceWall(p, m);
-		if (selected & SKILL_LIGHTNING) playerLightning(p, m);
-		if (selected & SKILL_TELEPORT) playerTeleport(p, m);
-	}
-	// Player의 속도가 Enemy보다 빠를 경우
-	else {
-		// 기본 스킬
-		if (selected & SKILL_ATTACK) playerAttack(p, m);
-		if (selected & SKILL_HEAL) playerAttack(p, m);
-
-		// 검 스킬
-		if (selected & SKILL_SLASH) playerSlash(p, m);
-		if (selected & SKILL_CHARGE) playerCharge(p, m);
-		if (selected & SKILL_SHIELD_BLOCK) playerShieldBlock(p, m);
-		if (selected & SKILL_BERSERK) playerBerserk(p, m);
-
-		// 활 스킬
-		if (selected & SKILL_ARROW_SHOT) playerAttack(p, m);
-		if (selected & SKILL_MULTI_SHOT) playerAttack(p, m);
-		if (selected & SKILL_POISON_ARROW) playerAttack(p, m);
-		if (selected & SKILL_EVASION) playerAttack(p, m);
-
-		// 지팡이 스킬
-		if (selected & SKILL_FIREBALL) playerAttack(p, m);
-		if (selected & SKILL_ICE_WALL) playerAttack(p, m);
-		if (selected & SKILL_LIGHTNING) playerAttack(p, m);
-		if (selected & SKILL_TELEPORT) playerAttack(p, m);
-
-		enemyAttack(p, m);
-	}
+	// 지팡이 스킬
+	if (selected & SKILL_FIREBALL) playerFireball(p, m);
+	if (selected & SKILL_ICE_WALL) playerIceWall(p, m);
+	if (selected & SKILL_LIGHTNING) playerLightning(p, m);
+	if (selected & SKILL_CONCENTRATION) playerConcentration(p, m);
 }
 
-int checkStun(Player* p, Monster* m) {
+void enemyTurn(Player* p, Monster* m) {
+	enemyAttack(p, m);
+}
+
+int checkPlayerStun(Player* p) {
 	if (p->stun >= 1) {
 		printf("[Player는 현재 스턴 상태 입니다.]\n");
 		return p->stun;
 	}
+}
+
+int checkEnemyStun(Monster* m) {
 	if (m->stun >= 1) {
 		printf("[Enemy는 현재 스턴 상태 입니다.]\n");
 		return m->stun;
@@ -163,12 +145,9 @@ SkillMask showSkillsList(struct Player* p) {
 		scanf_s("%d", &skillChoice);
 		switch (skillChoice)
 		{
-		case 1:
-			return SKILL_ATTACK;
-		case 2:
-			return SKILL_HEAL;
-		default:
-			break;
+		case 1:		return SKILL_ATTACK;
+		case 2:		return SKILL_HEAL;
+		default:	break;
 		}
 		break;
 
@@ -177,43 +156,137 @@ SkillMask showSkillsList(struct Player* p) {
 		switch (p->equipment)
 		{
 		case 1:		// 검
-			printf("1. 배기		2. 돌진		3. 방패 막기	4. 분노\n");
+			printf("1. 배기(스킬 포인트 : 1)	2. 돌진(스킬 포인트 : 2)\n3. 방패 막기(스킬 포인트 : 1)	4. 분노(스킬 포인트 : 3)\n");
 			printf("선택 : ");
 			scanf_s("%d", &skillChoice);
 			switch (skillChoice)
 			{
-			case 1:		return SKILL_SLASH;				// 배기
-			case 2:		return SKILL_CHARGE;			// 돌진
-			case 3:		return SKILL_SHIELD_BLOCK;		// 방패 막기
-			case 4:		return SKILL_BERSERK;			// 분노
+			case 1:		
+				if (p->skillPoint >= 1) {
+					p->skillPoint--;
+					return SKILL_SLASH;				// 배기
+				}
+				else {
+					printf("스킬 포인트가 부족합니다.\n");
+					showSkillsList(p);
+					break;
+				}
+			case 2:		
+				if (p->skillPoint >= 2) {
+					p->skillPoint -= 2;
+					return SKILL_CHARGE;			// 돌진
+				}
+				else {
+					printf("스킬 포인트가 부족합니다.\n");
+					showSkillsList(p);
+					break;
+				}
+			case 3:		
+				if (p->skillPoint >= 1) {
+					p->skillPoint--;
+					return SKILL_SHIELD_BLOCK;		// 방패 막기
+				}
+				else {
+					printf("스킬 포인트가 부족합니다.\n");
+					showSkillsList(p);
+					break;
+				}
+			case 4:		
+				if (p->skillPoint >= 3) {
+					p->skillPoint -= 3;
+					return SKILL_BERSERK;			// 분노
+				}
+				else {
+					printf("스킬 포인트가 부족합니다.\n");
+					showSkillsList(p);
+					break;
+				}
 			default: 	break;
 			}
 			break;
 
 		case 2:		// 활
-			printf("1. 쏘기		2. 연속 쏘기	3. 독화살	4. 회피\n");
+			printf("1. 쏘기(스킬 포인트 : 1)	2. 연속 쏘기(스킬 포인트 : 2)\n3. 독화살(스킬 포인트 : 3)	4. 회피(스킬 포인트 : 1)\n");
 			printf("선택 : ");
 			scanf_s("%d", &skillChoice);
 			switch (skillChoice)
 			{
-			case 1:		return SKILL_ARROW_SHOT;		// 쏘기
-			case 2:		return SKILL_MULTI_SHOT;		// 연속 쏘기
-			case 3:		return SKILL_POISON_ARROW;		// 독화살
-			case 4:		return SKILL_EVASION;			// 회피
+			case 1:		
+				if (p->skillPoint >= 1) {
+					p->skillPoint--;
+					return SKILL_ARROW_SHOT;		// 쏘기
+				}
+				else {
+					printf("스킬 포인트가 부족합니다.\n");
+					showSkillsList(p);
+					break;
+				}
+			case 2:		
+				if (p->skillPoint >= 2) {
+					p->skillPoint -= 2;
+					return SKILL_MULTI_SHOT;		// 연속 쏘기
+				}
+				else {
+					printf("스킬 포인트가 부족합니다.\n");
+					showSkillsList(p);
+					break;
+				}
+			case 3:		
+				if (p->skillPoint >= 3) {
+					p->skillPoint -= 3;
+					return SKILL_POISON_ARROW;		// 독화살
+				}
+				else {
+					printf("스킬 포인트가 부족합니다.\n");
+					showSkillsList(p);
+					break;
+				}
+			case 4:		
+				if (p->skillPoint >= 1) {
+					p->skillPoint--;
+					return SKILL_EVASION;			// 회피
+				}
+				else {
+					printf("스킬 포인트가 부족합니다.\n");
+					showSkillsList(p);
+					break;
+				}
 			default: 	break;
 			}
 			break;
 
 		case 3:		// 지팡이
-			printf("1. 화염구		2. 얼음벽		3. 번개		4. 순간이동\n");
+			printf("1. 화염구(스킬 포인트 : 1)	 	2. 얼음벽(스킬 포인트 : 2)\n3. 번개(스킬 포인트 : 3)		4. 집중(스킬 포인트 : 0)\n");
 			printf("선택 : ");
 			scanf_s("%d", &skillChoice);
 			switch (skillChoice)
 			{
-			case 1:		return SKILL_FIREBALL;			// 화염구
-			case 2:		return SKILL_ICE_WALL;			// 얼음벽
-			case 3:		return SKILL_LIGHTNING;			// 번개
-			case 4:		return SKILL_TELEPORT;			// 순간이동
+			case 1:		
+				if (p->skillPoint >= 1) {
+					p->skillPoint--;
+					return SKILL_FIREBALL;				// 화염구
+				}
+			case 2:		
+				if (p->skillPoint >= 2) {
+					p->skillPoint -= 2;
+					return SKILL_ICE_WALL;				// 얼음벽
+				}
+				else {
+					printf("스킬 포인트가 부족합니다.\n");
+					showSkillsList(p);
+					break;
+				}
+			case 3:		
+				if (p->skillPoint >= 3) {
+					p->skillPoint -= 3;
+					return SKILL_LIGHTNING;				// 번개
+				}
+				else {
+					printf("스킬 포인트가 부족합니다.\n");
+					showSkillsList(p);
+					break;
+				}
+			case 4:		return SKILL_CONCENTRATION;		// 집중
 			default: 	break;
 			}
 			break;

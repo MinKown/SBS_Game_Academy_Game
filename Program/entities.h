@@ -13,6 +13,8 @@ typedef struct Player
 	int successPoint;			// 미션 성공 횟수
 	int speed;					// 속도가 공격의 우선을 정함.
 	int stun;					// 스턴 여부
+	int ammor;					// 방어막
+	int skillPoint;				// 스킬 포인트
 }Player;
 
 typedef struct Monster
@@ -24,4 +26,5 @@ typedef struct Monster
 	int defence;
 	int speed;
 	int stun;
+	int debuff;					// 디버프 지속 시간
 }Monster;

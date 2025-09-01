@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AF4D4D72-F567-406A-A928-335D9D2AE0D4}|Program.vcxproj|C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\Source.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{AF4D4D72-F567-406A-A928-335D9D2AE0D4}|Program.vcxproj|solutionrelative:Source.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{AF4D4D72-F567-406A-A928-335D9D2AE0D4}|Program.vcxproj|C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\skill.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{AF4D4D72-F567-406A-A928-335D9D2AE0D4}|Program.vcxproj|solutionrelative:skill.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AF4D4D72-F567-406A-A928-335D9D2AE0D4}|Program.vcxproj|C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\skills.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{AF4D4D72-F567-406A-A928-335D9D2AE0D4}|Program.vcxproj|solutionrelative:skills.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF4D4D72-F567-406A-A928-335D9D2AE0D4}|Program.vcxproj|C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\Source.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{AF4D4D72-F567-406A-A928-335D9D2AE0D4}|Program.vcxproj|solutionrelative:Source.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AF4D4D72-F567-406A-A928-335D9D2AE0D4}|Program.vcxproj|C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\entities.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -33,17 +33,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "skills.h",
               "DocumentMoniker": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\skills.h",
               "RelativeDocumentMoniker": "skills.h",
               "ToolTip": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\skills.h",
               "RelativeToolTip": "skills.h",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAACIAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAABwAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-08-29T10:41:15.315Z",
               "EditorCaption": ""
@@ -56,20 +56,20 @@
               "RelativeDocumentMoniker": "entities.h",
               "ToolTip": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\entities.h",
               "RelativeToolTip": "entities.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-08-29T10:35:37.336Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "skill.c",
               "DocumentMoniker": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\skill.c",
               "RelativeDocumentMoniker": "skill.c",
-              "ToolTip": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\skill.c*",
-              "RelativeToolTip": "skill.c*",
-              "ViewState": "AgIAABkAAAAAAAAAAAAnwD4AAAAXAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\skill.c",
+              "RelativeToolTip": "skill.c",
+              "ViewState": "AgIAAJAAAAAAAAAAAAAnwKcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2025-08-29T09:49:28.137Z",
               "EditorCaption": ""
@@ -101,13 +101,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Source.c",
               "DocumentMoniker": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\Source.c",
               "RelativeDocumentMoniker": "Source.c",
-              "ToolTip": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\Source.c*",
-              "RelativeToolTip": "Source.c*",
-              "ViewState": "AgIAADsCAAAAAAAAAAAAAE4CAAAlAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\Source.c",
+              "RelativeToolTip": "Source.c",
+              "ViewState": "AgIAAP0AAAAAAAAAAAAAAD8AAABZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2025-08-25T09:06:21.042Z",
               "EditorCaption": ""

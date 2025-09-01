@@ -13,10 +13,11 @@ typedef uint32_t SkillMask;
 
 struct Player player;
 
-struct Monster frest[2] = { {"고블린1", 1, 100, 10, 10, 10}, {"고블린2", 1, 100, 10, 10, 10} };
-struct Monster river[3] = { {"도적1", 1, 100, 10, 10, 1}, {"도적2", 1, 100, 10, 10, 1}, {"도적3", 1, 100, 10, 10, 1} };
-struct Monster hills[4] = { {"늑대1", 1, 100, 10, 10, 3}, {"늑대2", 1, 100, 10, 10, 3}, 
-	{"늑대3", 1, 100, 10, 10, 3}, {"늑대", 1, 100, 10, 10, 5} };
+// monster: name, level, hp, attack, defence, speed, stun, debuff
+struct Monster frest[2] = { {"고블린1", 1, 100, 10, 1, 1, 0, 0}, {"고블린2", 1, 100, 10, 1, 1, 0, 0} };
+struct Monster river[3] = { {"도적1", 1, 100, 10, 10, 1, 0, 0}, {"도적2", 1, 100, 10, 10, 1, 0, 0}, {"도적3", 1, 100, 10, 10, 1, 0, 0} };
+struct Monster hills[4] = { {"늑대1", 1, 100, 10, 10, 3, 0, 0}, {"늑대2", 1, 100, 10, 10, 3, 0, 0},
+	{"늑대3", 1, 100, 10, 10, 3, 0, 0}, {"늑대", 1, 100, 10, 10, 5, 0, 0} };
 
 void cls() {
 	printf("\n");
@@ -53,19 +54,19 @@ void choiceJob() {
 		player.equipment = 1; // 검
 		printf("여관주인 : 오, 튼튼한 검을 집었군.\n");
 		printf("여관주인 : 이제 모험가다운 모습이로군!\n");
-		player.hp = 150; player.attack = 20; player.defence = 50; player.speed = 3;
+		player.hp = 150; player.attack = 20; player.defence = 50; player.speed = 1;
 		player.level = 1; player.questPoint = 1; player.fightTurn = 1; player.successPoint = 0;
 		break;
 	case 2:
 		player.equipment = 2; // 활
 		printf("여관주인 : 조용히, 그러나 멀리 보는 눈을 가진 자네와 잘 어울리는군...\n");
-		player.hp = 100; player.attack = 50; player.defence = 10; player.speed = 2;
+		player.hp = 100; player.attack = 50; player.defence = 10; player.speed = 6;
 		player.level = 1; player.questPoint = 1; player.fightTurn = 1; player.successPoint = 0;
 		break;
 	case 3:
 		player.equipment = 3; // 지팡이
 		printf("여관주인 : 마법을 택했군, 지혜로운 선택일세...\n");
-		player.hp = 100; player.attack = 30; player.defence = 20; player.speed = 6;
+		player.hp = 100; player.attack = 30; player.defence = 20; player.speed = 3;
 		player.level = 1; player.questPoint = 1; player.fightTurn = 1; player.successPoint = 0;
 		break;
 	default:
@@ -158,7 +159,7 @@ int main() {
 	int useHotel = 0;					// 최대 여관 사용 수
 	int useStore = 0;					// 최대 상점 사용 수
 	int deathCount = 0;					// 죽은 횟수
-
+	int totalHp = 0;					// 총 체력
 	
 	SkillMask test = 0;
 	int testChoice = 0;
@@ -257,21 +258,58 @@ int main() {
 				stageInfo(missionChoice, frest, river, hills);
 
 				while (fighting) {
-					printf("나 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
-						player.name, player.hp, player.attack, player.defence, player.speed);
+					printf("나 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d	스킬 포인트 : %d\n",
+						player.name, player.hp, player.attack, player.defence, player.speed, player.skillPoint);
 					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
 						frest[fightOrder].name, frest[fightOrder].hp, frest[fightOrder].attack, frest[fightOrder].defence, frest[fightOrder].speed);
 
 					test |= showSkillsList(&player);
 
 					printf("[숲 가장자리의 %d 번째 적]\n", stageTurn + 1);
-					
-					checkStun(&player, &frest[fightOrder]);
-					applySkills(test, &player, &frest[fightOrder]);
+
+					checkPlayerStun(&player);
+					checkEnemyStun(&frest[fightOrder]);
+
+					if (player.speed >= frest[fightOrder].speed) {
+						if (player.stun <= 0) {
+							applySkills(test, &player, &frest[fightOrder]);
+						}
+						else {
+							player.stun--;
+						}
+
+						if (frest[fightOrder].stun <= 0) {
+							enemyTurn(&player, &frest[fightOrder]);
+						}
+						else {
+							frest[fightOrder].stun--;
+						}
+					}
+					else if (frest[fightOrder].speed > player.speed) {
+						if (frest[fightOrder].stun <= 0) {
+							enemyTurn(&player, &frest[fightOrder]);
+						}
+						else {
+							frest[fightOrder].stun--;
+						}
+
+						if (player.stun <= 0) {
+							applySkills(test, &player, &frest[fightOrder]);
+						}
+						else {
+							player.stun--;
+						}
+					}
+
+					test = 0;
+
+					cls();
 
 					if (frest[fightOrder].hp <= 0) {
+						printf("%s 을 쓰러트렸습니다.\n", frest[fightOrder].name);
 						stageTurn++;
 						fightOrder++;
+						cls();
 					}
 					if (stageTurn == 2) {		// 모든 적 처치
 						printf("나는 고블린들의 이빨을 뜯어 주머니에 넣었다.\n");
@@ -358,8 +396,8 @@ int main() {
 				stageInfo(missionChoice, frest, river, hills);
 
 				while (fighting) {
-					printf("나 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
-						player.name, player.hp, player.attack, player.defence, player.speed);
+					printf("나 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d		스킬 포인트 %d\n",
+						player.name, player.hp, player.attack, player.defence, player.speed, player.skillPoint);
 					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
 						hills[fightOrder].name, hills[fightOrder].hp, hills[fightOrder].attack, hills[fightOrder].defence, hills[fightOrder].speed);
 					
@@ -398,7 +436,7 @@ int main() {
 
 		case 4:		// 마을
 			printf("마을\n");
-			printf("1. 여관		2. 대장간		3. 상점		4. 임무 수행\n");
+			printf("1. 여관(체력 회복/여관 주인)\n2. 대장간(무작위 능력치 상승)\n3. 상점(미구현)\n4. 임무 수행\n");
 			printf("선택 : ");
 			scanf_s("%d", &villageChoice);
 
@@ -419,9 +457,9 @@ int main() {
 					}
 					printf("잠시 휴식을 해야겠어.\n");
 					printf("현재 %d 번 사용하셨습니다. 총 6번 사용 가능합니다.\n", useHotel + 1);
-					if (player.equipment == 1) player.hp = 150;
-					if (player.equipment == 2) player.hp = 100;
-					if (player.equipment == 3) player.hp = 100;
+					if (player.equipment == 1) player.hp = totalHp;
+					if (player.equipment == 2) player.hp = totalHp;
+					if (player.equipment == 3) player.hp = totalHp;
 
 					useHotel++;
 
@@ -439,19 +477,79 @@ int main() {
 					break;
 					state = 4;
 				}
-				printf("대장간 사용\n");				
+				printf("조금 이상한 대장간 사용\n");				
+				printf("[무작위 능력치가 상승한다.]\n");
+				
+				int random = rand() % 4 + 1;
+				int random2 = rand() % 10 + 1;
 
 				switch (player.equipment)
 				{
 				case 1:		// 검
-					printf("깡 깡 깡\n");
-					printf("대장장이가 망치를 들고 내려치는 소리가 들린다.\n");
-					printf("[힘 + 10]\n");
-					player.attack += 10;
+					switch (random)
+					{
+					case 1:
+						printf("[힘 + %d]\n", random2);
+						player.attack += random2;
+						break;
+					case 2:
+						printf("[체력 + %d]\n", random2);
+						player.hp += random2;
+						totalHp = player.hp;
+						break;
+					case 3:
+						printf("[속도 + %d]\n", random2);
+						player.speed += random2;
+						break;
+					case 4:
+						printf("[방어 + %d]\n", random2);
+						player.defence += random2;
+						break;
+					}
 					break;
 				case 2:		// 활
+					switch (random)
+					{
+					case 1:
+						printf("[힘 + %d]\n", random2);
+						player.attack += random2;
+						break;
+					case 2:
+						printf("[체력 + %d]\n", random2);
+						player.hp += random2;
+						totalHp = player.hp;
+						break;
+					case 3:
+						printf("[속도 + %d]\n", random2);
+						player.speed += random2;
+						break;
+					case 4:
+						printf("[방어 + %d]\n", random2);
+						player.defence += random2;
+						break;
+					}
 					break;
 				case 3:		// 마법사
+					switch (random)
+					{
+					case 1:
+						printf("[힘 + %d]\n", random2);
+						player.attack += random2;
+						break;
+					case 2:
+						printf("[체력 + %d]\n", random2);
+						player.hp += random2;
+						totalHp = player.hp;
+						break;
+					case 3:
+						printf("[속도 + %d]\n", random2);
+						player.speed += random2;
+						break;
+					case 4:
+						printf("[방어 + %d]\n", random2);
+						player.defence += random2;
+						break;
+					}
 					break;
 				}
 				printf("현재 %d 번 사용하셨습니다. 총 6번 사용 가능합니다.\n", useSmithy + 1);

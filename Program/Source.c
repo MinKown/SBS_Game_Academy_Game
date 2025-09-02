@@ -14,10 +14,11 @@ typedef uint32_t SkillMask;
 struct Player player;
 
 // monster: name, level, hp, attack, defence, speed, stun, debuff
-struct Monster frest[2] = { {"고블린1", 1, 100, 10, 1, 1, 0, 0}, {"고블린2", 1, 100, 10, 1, 1, 0, 0} };
-struct Monster river[3] = { {"도적1", 1, 100, 10, 10, 1, 0, 0}, {"도적2", 1, 100, 10, 10, 1, 0, 0}, {"도적3", 1, 100, 10, 10, 1, 0, 0} };
-struct Monster hills[4] = { {"늑대1", 1, 100, 10, 10, 3, 0, 0}, {"늑대2", 1, 100, 10, 10, 3, 0, 0},
-	{"늑대3", 1, 100, 10, 10, 3, 0, 0}, {"늑대", 1, 100, 10, 10, 5, 0, 0} };
+struct Monster frest[2] = { {"고블린 척후병", 1, 40, 15, 5, 2, 0, 0}, {"고블린 좀도둑", 1, 50, 18, 5, 1, 0, 0} };
+struct Monster river[3] = { {"도적 매복자", 1, 60, 25, 10, 7, 0, 0}, {"도적 싸움꾼", 1, 90, 35, 15, 2, 0, 0}, 
+	{"도적 두목", 1, 110, 30, 20, 4, 0, 0} };
+struct Monster hills[4] = { {"어린 회색 늑대", 1, 80, 30, 20, 8, 0, 0}, {"어린 회색 늑대", 1, 80, 30, 20, 8, 0, 0},
+	{"성체 회색 늑대", 1, 120, 45, 25, 6, 0, 0}, {"우두머리 회색 늑대", 1, 200, 50, 30, 7, 0, 0} };
 
 void cls() {
 	printf("\n");
@@ -55,19 +56,22 @@ void choiceJob() {
 		printf("여관주인 : 오, 튼튼한 검을 집었군.\n");
 		printf("여관주인 : 이제 모험가다운 모습이로군!\n");
 		player.hp = 150; player.attack = 20; player.defence = 50; player.speed = 1;
-		player.level = 1; player.questPoint = 1; player.fightTurn = 1; player.successPoint = 0;
+		player.level = 1; player.questPoint = 1; player.fightTurn = 1; player.successPoint = 0; player.temporary = 0;
+		player.ammor = 0; player.stun = 0; player.skillPoint = 0;
 		break;
 	case 2:
 		player.equipment = 2; // 활
 		printf("여관주인 : 조용히, 그러나 멀리 보는 눈을 가진 자네와 잘 어울리는군...\n");
 		player.hp = 100; player.attack = 50; player.defence = 10; player.speed = 6;
-		player.level = 1; player.questPoint = 1; player.fightTurn = 1; player.successPoint = 0;
+		player.level = 1; player.questPoint = 1; player.fightTurn = 1; player.successPoint = 0; player.temporary = 0;
+		player.ammor = 0; player.stun = 0; player.skillPoint = 0;
 		break;
 	case 3:
 		player.equipment = 3; // 지팡이
 		printf("여관주인 : 마법을 택했군, 지혜로운 선택일세...\n");
 		player.hp = 100; player.attack = 30; player.defence = 20; player.speed = 3;
-		player.level = 1; player.questPoint = 1; player.fightTurn = 1; player.successPoint = 0;
+		player.level = 1; player.questPoint = 1; player.fightTurn = 1; player.successPoint = 0; player.temporary = 0;
+		player.ammor = 0; player.stun = 0; player.skillPoint = 0;
 		break;
 	default:
 		break;
@@ -161,8 +165,7 @@ int main() {
 	int deathCount = 0;					// 죽은 횟수
 	int totalHp = 0;					// 총 체력
 	
-	SkillMask test = 0;
-	int testChoice = 0;
+	SkillMask skillMask = 0;
 
 	bool running = true;
 	bool fighting = true;
@@ -263,16 +266,17 @@ int main() {
 					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
 						frest[fightOrder].name, frest[fightOrder].hp, frest[fightOrder].attack, frest[fightOrder].defence, frest[fightOrder].speed);
 
-					test |= showSkillsList(&player);
+					skillMask |= showSkillsList(&player);
 
 					printf("[숲 가장자리의 %d 번째 적]\n", stageTurn + 1);
 
 					checkPlayerStun(&player);
 					checkEnemyStun(&frest[fightOrder]);
+					if (player.equipment == 2) checkPoison(&frest[fightOrder]);
 
 					if (player.speed >= frest[fightOrder].speed) {
 						if (player.stun <= 0) {
-							applySkills(test, &player, &frest[fightOrder]);
+							applySkills(skillMask, &player, &frest[fightOrder]);
 						}
 						else {
 							player.stun--;
@@ -294,14 +298,15 @@ int main() {
 						}
 
 						if (player.stun <= 0) {
-							applySkills(test, &player, &frest[fightOrder]);
+							applySkills(skillMask, &player, &frest[fightOrder]);
 						}
 						else {
 							player.stun--;
 						}
 					}
 
-					test = 0;
+					
+					skillMask = 0;
 
 					cls();
 
@@ -315,6 +320,7 @@ int main() {
 						printf("나는 고블린들의 이빨을 뜯어 주머니에 넣었다.\n");
 						player.questPoint++;
 						player.successPoint++;
+						player.ammor = 0;
 						stageTurn = 0;
 						fightOrder = 0;
 						break;
@@ -352,10 +358,46 @@ int main() {
 					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
 						river[fightOrder].name, river[fightOrder].hp, river[fightOrder].attack, river[fightOrder].defence, river[fightOrder].speed);
 					
-					test |= showSkillsList(&player);
+					skillMask |= showSkillsList(&player);
+
+					checkPlayerStun(&player);
+					checkEnemyStun(&river[fightOrder]);
+					if (player.equipment == 2) checkPoison(&river[fightOrder]);
 
 					printf("[강 주변의 %d 번째 적]\n", stageTurn + 1);
-					applySkills(test, &player, &river[fightOrder]);
+
+					if (player.speed >= river[fightOrder].speed) {
+						if (player.stun <= 0) {
+							applySkills(skillMask, &player, &river[fightOrder]);
+						}
+						else {
+							player.stun--;
+						}
+
+						if (river[fightOrder].stun <= 0) {
+							enemyTurn(&player, &river[fightOrder]);
+						}
+						else {
+							river[fightOrder].stun--;
+						}
+					}
+					else if (river[fightOrder].speed > player.speed) {
+						if (river[fightOrder].stun <= 0) {
+							enemyTurn(&player, &river[fightOrder]);
+						}
+						else {
+							river[fightOrder].stun--;
+						}
+
+						if (player.stun <= 0) {
+							applySkills(skillMask, &player, &river[fightOrder]);
+						}
+						else {
+							player.stun--;
+						}
+					}
+
+					skillMask = 0;
 
 					if (river[fightOrder].hp <= 0) {
 						stageTurn++;
@@ -401,10 +443,46 @@ int main() {
 					printf("적 : %s		체력 : %d	  공격력 : %d		방어력 : %d		속도 : %d\n",
 						hills[fightOrder].name, hills[fightOrder].hp, hills[fightOrder].attack, hills[fightOrder].defence, hills[fightOrder].speed);
 					
-					test |= showSkillsList(&player);
+					skillMask |= showSkillsList(&player);
+
+					checkPlayerStun(&player);
+					checkEnemyStun(&hills[fightOrder]);
+					if (player.equipment == 2) checkPoison(&hills[fightOrder]);
 
 					printf("[구룽지의 %d 번째 적]\n", stageTurn + 1);
-					applySkills(test, &player, &hills[fightOrder]);
+
+					if (player.speed >= hills[fightOrder].speed) {
+						if (player.stun <= 0) {
+							applySkills(skillMask, &player, &hills[fightOrder]);
+						}
+						else {
+							player.stun--;
+						}
+
+						if (hills[fightOrder].stun <= 0) {
+							enemyTurn(&player, &hills[fightOrder]);
+						}
+						else {
+							hills[fightOrder].stun--;
+						}
+					}
+					else if (hills[fightOrder].speed > player.speed) {
+						if (hills[fightOrder].stun <= 0) {
+							enemyTurn(&player, &hills[fightOrder]);
+						}
+						else {
+							hills[fightOrder].stun--;
+						}
+
+						if (player.stun <= 0) {
+							applySkills(skillMask, &player, &hills[fightOrder]);
+						}
+						else {
+							player.stun--;
+						}
+					}
+
+					skillMask = 0;
 
 					if (hills[fightOrder].hp <= 0) {
 						stageTurn++;
@@ -593,6 +671,9 @@ int main() {
 			deathCount++;
 			state = 4;
 			break;
+		case 8:
+			printf("도망친 곳에 낙원은 없다.\n");
+			break;
 		}
 		
 		if (player.hp <= 0) {
@@ -600,6 +681,7 @@ int main() {
 		}
 		if (state == 5) break;
 		if (state == 6) break;
+		if (state == 8) break;
 	}
 
 	return 0;

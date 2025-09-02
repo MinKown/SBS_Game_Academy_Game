@@ -37,3 +37,4 @@ void applySkills(SkillMask selected, Player* p, Monster* m);
 void enemyTurn(Player* p, Monster* m);
 int checkPlayerStun(Player* p);
 int checkEnemyStun(Monster* m);
+int checkPoison(Monster* m);

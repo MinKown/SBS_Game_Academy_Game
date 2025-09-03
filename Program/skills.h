@@ -5,6 +5,7 @@ typedef uint32_t SkillMask;
 
 typedef struct Player Player;     // 전방 선언
 typedef struct Monster Monster;   // 전방 선언
+typedef struct Player2 Player2;   // 전방 선언
 
 // 공용 스킬
 #define SKILL_ATTACK			(1u << 0)		// 기본 공격
@@ -37,4 +38,6 @@ void applySkills(SkillMask selected, Player* p, Monster* m);
 void enemyTurn(Player* p, Monster* m);
 int checkPlayerStun(Player* p);
 int checkEnemyStun(Monster* m);
-int checkPoison(Monster* m);
+void checkPoison(Monster* m);
+void makeName(Player* p);
+void choiceJob(Player* p);

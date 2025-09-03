@@ -16,6 +16,7 @@ typedef struct Player
 	int ammor;					// 방어막
 	int skillPoint;				// 스킬 포인트
 	int temporary;				// 일시적인 능력치 상승때 사용
+	int totalHp;
 }Player;
 
 typedef struct Monster

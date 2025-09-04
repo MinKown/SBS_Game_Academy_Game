@@ -14,11 +14,11 @@ typedef uint32_t SkillMask;
 struct Player player;
 
 // monster: name, level, hp, attack, defence, speed, stun, debuff
-struct Monster frest[2] = { {"고블린 척후병", 1, 40, 15, 5, 2, 0, 0}, {"고블린 좀도둑", 1, 50, 18, 5, 1, 0, 0} };
-struct Monster river[3] = { {"도적 매복자", 1, 60, 25, 10, 7, 0, 0}, {"도적 싸움꾼", 1, 90, 35, 15, 2, 0, 0}, 
-	{"도적 두목", 1, 110, 30, 20, 4, 0, 0} };
-struct Monster hills[4] = { {"어린 회색 늑대", 1, 80, 30, 20, 8, 0, 0}, {"어린 회색 늑대", 1, 80, 30, 20, 8, 0, 0},
-	{"성체 회색 늑대", 1, 120, 45, 25, 6, 0, 0}, {"우두머리 회색 늑대", 1, 200, 50, 30, 7, 0, 0} };
+struct Monster frest[2] = { {"고블린 척후병", 1, 40, 15, 5, 2, 0, 0, 40}, {"고블린 좀도둑", 1, 50, 18, 5, 1, 0, 0, 40} };
+struct Monster river[3] = { {"도적 매복자", 1, 60, 25, 10, 7, 0, 0, 60}, {"도적 싸움꾼", 1, 90, 35, 15, 2, 0, 0, 90}, 
+	{"도적 두목", 1, 110, 30, 20, 4, 0, 0, 110} };
+struct Monster hills[4] = { {"어린 회색 늑대", 1, 80, 30, 20, 8, 0, 0, 80}, {"어린 회색 늑대", 1, 80, 30, 20, 8, 0, 0, 80},
+	{"성체 회색 늑대", 1, 120, 45, 25, 6, 0, 0, 120}, {"우두머리 회색 늑대", 1, 200, 50, 30, 7, 0, 0, 200} };
 
 void stepUp();
 void playerLevelUp(int lv);
@@ -28,6 +28,24 @@ void cls() {
 	printf("\n");
 	system("pause");
 	system("cls");
+}
+
+void printHpBar(int Hp, int maxHp) {
+	int barLenght = 20;
+	int Hp_val = (Hp < 0) ? 0 : Hp;
+	int percentage = (int)(((float)Hp / maxHp) * 100);
+	int filledLenght = (int)(barLenght * percentage / 100);
+
+	printf(" [");
+	for (int i = 0; i < barLenght; i++) {
+		if (i < filledLenght) {
+			printf("#");
+		}
+		else {
+			printf("-");
+		}
+	}
+	printf("] %d%% \n", percentage);
 }
 
 const char* Talk1[7] = {
@@ -161,11 +179,13 @@ void enemyLevelUp(int newLevel) {
 	frest[0].hp += 5;
 	frest[0].attack += 2;
 	frest[0].defence += 1;
+	frest[0].totalHp += 5;
 	// 고블린 좀도둑 (성장 계수: 체+6, 공+3, 방+1)
 	frest[1].level += newLevel;
 	frest[1].hp += 6;
 	frest[1].attack += 3;
 	frest[1].defence += 1;
+	frest[1].totalHp += 6;
 
 	// === 강가 몬스터 레벨업 ===
 	// 도적 매복자 (성장 계수: 체+8, 공+4, 방+2)
@@ -173,16 +193,19 @@ void enemyLevelUp(int newLevel) {
 	river[0].hp += 8;
 	river[0].attack += 4;
 	river[0].defence += 2;
+	river[0].totalHp += 8;
 	// 도적 싸움꾼 (성장 계수: 체+15, 공+6, 방+2)
 	river[1].level += newLevel;
 	river[1].hp += 15;
 	river[1].attack += 6;
 	river[1].defence += 2;
+	river[1].totalHp += 15;
 	// 도적 두목 (성장 계수: 체+12, 공+5, 방+3)
 	river[2].level += newLevel;
 	river[2].hp += 12;
 	river[2].attack += 5;
 	river[2].defence += 3;
+	river[2].totalHp += 12;
 
 	// === 구릉지 몬스터 레벨업 ===
 	// 어린 회색 늑대 (성장 계수: 체+10, 공+5, 방+3)
@@ -190,20 +213,24 @@ void enemyLevelUp(int newLevel) {
 	hills[0].hp += 10;
 	hills[0].attack += 5;
 	hills[0].defence += 3;;
+	hills[0].totalHp += 10;
 	hills[1].level += newLevel;
 	hills[1].hp += 10;
 	hills[1].attack += 5;
 	hills[1].defence += 3;
+	hills[1].totalHp += 10;
 	// 성체 회색 늑대 (성장 계수: 체+18, 공+7, 방+4)
 	hills[2].level += newLevel;
 	hills[2].hp += 18;
 	hills[2].attack += 7;
 	hills[2].defence += 4;
+	hills[2].totalHp += 18;
 	// 우두머리 회색 늑대 (성장 계수: 체+25, 공+8, 방+5)
 	hills[3].level += newLevel;
 	hills[3].hp += 25;
 	hills[3].attack += 8;
 	hills[3].defence += 5;
+	hills[3].totalHp += 25;
 }
 
 
@@ -327,11 +354,12 @@ int main() {
 
 				while (fighting) {
 					printf("==============================================================\n");
-					printf("	[전투 중] %s | 남은 적: %d '\' %d\n", frest[fightOrder].name, fightOrder + 1, 2);
+					printf("	[전투 중] %s | 남은 적: %d / %d\n", frest[fightOrder].name, fightOrder + 1, 2);
 					printf("--------------------------------------------------------------\n");
 
 					printf("  [ %-20s ] (Lv.%d)\n", player.name, player.level);
 					printf("  HP: %d | %d\n", player.hp, player.totalHp);
+					printHpBar(player.hp, player.totalHp);
 					printf("  공격력 : %-5d 방어력 : %-5d 스피드 : %-5d 스킬포인트 : %-5d\n",
 						player.attack, player.defence, player.speed, player.skillPoint);
 					if (player.stun > 0) printf("	상태: [기절됨! (%d)턴]\n", player.stun);
@@ -339,6 +367,7 @@ int main() {
 
 					printf("  [ %-20s ] (Lv.%d)\n", frest[fightOrder].name, frest[fightOrder].level);
 					printf("  HP: %d\n", frest[fightOrder].hp);
+					printHpBar(frest[fightOrder].hp, frest[fightOrder].totalHp);
 					printf("  공격력 : %-5d 방어력 : %-5d 스피드 : %-5d\n", 
 						frest[fightOrder].attack, frest[fightOrder].defence, frest[fightOrder].speed);
 					if (frest[fightOrder].stun > 0) printf("  상태: [기절됨! (%d)턴]\n", frest[fightOrder].stun);
@@ -438,11 +467,12 @@ int main() {
 
 				while (fighting) {
 					printf("==============================================================\n");
-					printf("	[전투 중] %s | 남은 적: %d '\' %d\n", river[fightOrder].name, fightOrder + 1, 2);
+					printf("	[전투 중] %s | 남은 적: %d / %d\n", river[fightOrder].name, fightOrder + 1, 2);
 					printf("--------------------------------------------------------------\n");
 
 					printf("  [ %-20s ] (Lv.%d)\n", player.name, player.level);
 					printf("  HP: %d | %d\n", player.hp, player.totalHp);
+					printHpBar(player.hp, player.totalHp);
 					printf("  공격력 : %-5d 방어력 : %-5d 스피드 : %-5d 스킬포인트 : %-5d\n",
 						player.attack, player.defence, player.speed, player.skillPoint);
 					if (player.stun > 0) printf("	상태: [기절됨! (%d)턴]\n", player.stun);
@@ -450,6 +480,7 @@ int main() {
 
 					printf("  [ %-20s ] (Lv.%d)\n", river[fightOrder].name, river[fightOrder].level);
 					printf("  HP: %d\n", river[fightOrder].hp);
+					printHpBar(river[fightOrder].hp, river[fightOrder].totalHp);
 					printf("  공격력 : %-5d 방어력 : %-5d 스피드 : %-5d\n",
 						river[fightOrder].attack, river[fightOrder].defence, river[fightOrder].speed);
 					if (river[fightOrder].stun > 0) printf("  상태: [기절됨! (%d)턴]\n", river[fightOrder].stun);
@@ -544,11 +575,12 @@ int main() {
 
 				while (fighting) {
 					printf("==============================================================\n");
-					printf("	[전투 중] %s | 남은 적: %d '\' %d\n", hills[fightOrder].name, fightOrder + 1, 2);
+					printf("	[전투 중] %s | 남은 적: %d / %d\n", hills[fightOrder].name, fightOrder + 1, 2);
 					printf("--------------------------------------------------------------\n");
 
 					printf("  [ %-20s ] (Lv.%d)\n", player.name, player.level);
 					printf("  HP: %d | %d\n", player.hp, player.totalHp);
+					printHpBar(player.hp, player.totalHp);
 					printf("  공격력 : %-5d 방어력 : %-5d 스피드 : %-5d 스킬포인트 : %-5d\n",
 						player.attack, player.defence, player.speed, player.skillPoint);
 					if (player.stun > 0) printf("	상태: [기절됨! (%d)턴]\n", player.stun);
@@ -556,6 +588,7 @@ int main() {
 
 					printf("  [ %-20s ] (Lv.%d)\n", hills[fightOrder].name, hills[fightOrder].level);
 					printf("  HP: %d\n", hills[fightOrder].hp);
+					printHpBar(hills[fightOrder].hp, hills[fightOrder].totalHp);
 					printf("  공격력 : %-5d 방어력 : %-5d 스피드 : %-5d\n",
 						hills[fightOrder].attack, hills[fightOrder].defence, hills[fightOrder].speed);
 					if (hills[fightOrder].stun > 0) printf("  상태: [기절됨! (%d)턴]\n", hills[fightOrder].stun);
@@ -664,7 +697,7 @@ int main() {
 					player.hp = player.totalHp;
 
 					useHotel++;
-
+					cls();
 					break;
 				case 2:
 					state = 1;
@@ -770,6 +803,7 @@ int main() {
 				
 				useStore++;
 				state = 4;
+				cls();
 				break;
 			case 4:
 				state = 2;

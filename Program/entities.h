@@ -29,4 +29,5 @@ typedef struct Monster
 	int speed;
 	int stun;
 	int debuff;					// 디버프 지속 시간
+	int totalHp;
 }Monster;

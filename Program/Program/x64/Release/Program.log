@@ -1,8 +1,10 @@
 ﻿  Source.c
-C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\Source.c(278,8): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  코드를 생성하고 있습니다.
-  0 of 40 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
-  코드를 생성했습니다.
-  Program.vcxproj -> C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\x64\Release\Program.exe
+  player.c
+  skill.c
+Source.obj : error LNK2005: makeName이(가) player.obj에 이미 정의되어 있습니다.
+Source.obj : error LNK2005: choiceJob이(가) player.obj에 이미 정의되어 있습니다.
+Source.obj : error LNK2005: cls이(가) player.obj에 이미 정의되어 있습니다.
+skill.obj : error LNK2005: makeName이(가) player.obj에 이미 정의되어 있습니다.
+skill.obj : error LNK2005: choiceJob이(가) player.obj에 이미 정의되어 있습니다.
+skill.obj : error LNK2005: cls이(가) player.obj에 이미 정의되어 있습니다.
+C:\Users\FORYOUCOM\Desktop\SBS_Game_Academy_Game\Program\x64\Release\Program.exe : fatal error LNK1169: 여러 번 정의된 기호가 있습니다.

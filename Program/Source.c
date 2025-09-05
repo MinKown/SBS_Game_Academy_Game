@@ -1,8 +1,9 @@
 ﻿#pragma once
 
 #include "entities.h"
-#include "skills.h"
+#include "all.h"
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <Windows.h>
@@ -24,11 +25,7 @@ void stepUp();
 void playerLevelUp(int lv);
 void enemyLevelUp(int newLevel);
 
-void cls() {
-	printf("\n");
-	system("pause");
-	system("cls");
-}
+
 
 void setTextColor(int color) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
@@ -275,7 +272,7 @@ void enemyLevelUp(int newLevel) {
 
 
 int main() {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	//int random = rand() % 100 + 1;		// 1 ~ 100 난수
 	int missionChoice = 0;				// switch (state) case 2: 에서 사용되는 선택
 	int villageChoice = 0;				// switch (state) case 4: 에서 사용되는 선택
@@ -461,7 +458,6 @@ int main() {
 							player.stun--;
 						}
 					}
-
 					
 					skillMask = 0;
 
@@ -517,7 +513,7 @@ int main() {
 
 				while (fighting) {
 					printf("==============================================================\n");
-					printf("	[전투 중] %s | 남은 적: %d / %d\n", river[fightOrder].name, fightOrder + 1, 2);
+					printf("	[전투 중] %s | 남은 적: %d / %d\n", river[fightOrder].name, fightOrder + 1, 3);
 					printf("--------------------------------------------------------------\n");
 
 					printf("  [ %-20s ] (Lv.%d)\n", player.name, player.level);
@@ -577,6 +573,8 @@ int main() {
 
 					skillMask = 0;
 
+					cls();
+
 					if (river[fightOrder].hp <= 0) {
 						printf("%s 을 쓰러트렸습니다.\n", river[fightOrder].name);
 						stageTurn++;
@@ -625,7 +623,7 @@ int main() {
 
 				while (fighting) {
 					printf("==============================================================\n");
-					printf("	[전투 중] %s | 남은 적: %d / %d\n", hills[fightOrder].name, fightOrder + 1, 2);
+					printf("	[전투 중] %s | 남은 적: %d / %d\n", hills[fightOrder].name, fightOrder + 1, 4);
 					printf("--------------------------------------------------------------\n");
 
 					printf("  [ %-20s ] (Lv.%d)\n", player.name, player.level);
@@ -684,6 +682,8 @@ int main() {
 					}
 
 					skillMask = 0;
+
+					cls();
 
 					if (hills[fightOrder].hp <= 0) {
 						printf("%s 을 쓰러트렸습니다.\n", hills[fightOrder].name);

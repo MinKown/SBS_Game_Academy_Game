@@ -30,6 +30,44 @@ void cls() {
 	system("cls");
 }
 
+void setTextColor(int color) {
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
+// 타이틀 화면을 출력하는 함수
+int showTitleScreen() {
+	system("cls");
+	int choice = 0;
+
+	setTextColor(8);
+	printf("\n\n");
+	printf("        +--------------------------------------------------------------------+\n");
+	setTextColor(14);
+	printf("\n"); // 위쪽 여백 추가
+	printf("           ::::::::::    ::::::::      ::      ::    :::::::::: \n");
+	printf("           ::            ::    ::      ::::  ::::    ::         \n");
+	printf("           ::  ::::::    ::::::::      ::  ::  ::    :::::::::: \n");
+	printf("           ::      ::    ::    ::      ::      ::    ::         \n");
+	printf("           ::::::::::    ::    ::      ::      ::    :::::::::: \n");
+	printf("\n"); // 아래쪽 여백 추가
+	printf("						THE LAST STORY \n");
+	setTextColor(8);
+	printf("        +--------------------------------------------------------------------+\n\n");
+	printf("\n");
+
+	setTextColor(15);
+	printf("                          [ 1. 새로운 모험 시작 ]\n\n");
+	printf("                          [ 2. 현실로 돌아가기 ]\n\n");
+
+	setTextColor(7);
+	printf("                                                              By [Kang]\n");
+	printf("--------------------------------------------------------------------------------\n");
+	printf("  선택: ");
+	scanf_s("%d", &choice);
+	while (getchar() != '\n'); // 입력 버퍼 비우기
+	return choice;
+}
+
 void printHpBar(int Hp, int maxHp) {
 	int barLenght = 20;
 	int Hp_val = (Hp < 0) ? 0 : Hp;
@@ -252,16 +290,28 @@ int main() {
 	int deathCount = 0;					// 죽은 횟수
 	int totalHp = 0;					// 총 체력
 	int lv = 0;							// 레벨
+	int cho;
 
 	SkillMask skillMask = 0;
 
 	bool running = true;
 	bool fighting = true;
 
+	
+
 	while (running) {
 		switch (state) {
 		case 0:		// 직업 결정
-			printf("간단한 MUD 게임\n");
+			cho = showTitleScreen();
+
+			if (cho == 2) {
+				running = false; // 게임 종료
+				break;
+			}
+			// 잘못된 입력은 루프를 반복하여 타이틀 화면을 다시 보여줌
+
+			cls();
+
 			makeName(&player);
 			choiceJob(&player);
 			

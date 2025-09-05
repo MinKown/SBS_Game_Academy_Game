@@ -19,11 +19,11 @@
       "RelativeMoniker": "D:0:0:{AF4D4D72-F567-406A-A928-335D9D2AE0D4}|Program.vcxproj|solutionrelative:entities.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AF4D4D72-F567-406A-A928-335D9D2AE0D4}|Program.vcxproj|C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\test.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{AF4D4D72-F567-406A-A928-335D9D2AE0D4}|Program.vcxproj|solutionrelative:test.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt\\stdio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt\\stdio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{AF4D4D72-F567-406A-A928-335D9D2AE0D4}|Program.vcxproj|C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\test.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{AF4D4D72-F567-406A-A928-335D9D2AE0D4}|Program.vcxproj|solutionrelative:test.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -69,14 +69,14 @@
               "RelativeDocumentMoniker": "skill.c",
               "ToolTip": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\skill.c",
               "RelativeToolTip": "skill.c",
-              "ViewState": "AgIAAG8BAAAAAAAAAAAAALYBAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAJEBAAAAAAAAAAAAAJ8BAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2025-08-29T09:49:28.137Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "test.c",
               "DocumentMoniker": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\test.c",
               "RelativeDocumentMoniker": "test.c",
@@ -84,19 +84,21 @@
               "RelativeToolTip": "test.c",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2025-08-29T10:42:59.711Z"
+              "WhenOpened": "2025-08-29T10:42:59.711Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "stdio.h",
               "DocumentMoniker": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt\\stdio.h",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt\\stdio.h",
               "ToolTip": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt\\stdio.h",
               "RelativeToolTip": "..\\..\\..\\..\\..\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt\\stdio.h",
-              "ViewState": "AgIAADsEAAAAAAAAAADwv0oEAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAALEDAAAAAAAAAAAgwMIDAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-08-25T09:25:54.592Z"
+              "WhenOpened": "2025-08-25T09:25:54.592Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -106,7 +108,7 @@
               "RelativeDocumentMoniker": "Source.c",
               "ToolTip": "C:\\Users\\FORYOUCOM\\Desktop\\SBS_Game_Academy_Game\\Program\\Source.c",
               "RelativeToolTip": "Source.c",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAADQAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2025-08-25T09:06:21.042Z",
               "EditorCaption": ""
